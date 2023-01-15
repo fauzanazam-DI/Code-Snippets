@@ -15,9 +15,31 @@ codeunit 50000 "Extensions Mgt."
     end;
 
     internal procedure JsonObjectValuesToDictionary(JObject: JsonObject; ObjectDictionary: Dictionary of [Text, Text])
+    var
+        IsHandled: Boolean;
+        JsonToken: JsonToken;
+        DulpicateKeyErr: Label 'Duplicate key %1', Comment = '%1 Key Name';
+        ObjectKeys: List of [Text];
+        JKey: Text;
+        JValue: Text;
     begin
-        Error('Procedure JsonObjectValuesToDictionary not implemented.');
+        //OnBeforeJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
+        if IsHandled then
+            exit;
+
+        ObjectKeys := JObject.Keys();
+        foreach JKey in ObjectKeys do begin
+            JObject.Get(JKey, JsonToken);
+            if JsonToken.IsValue then
+                if ObjectDictionary.ContainsKey(JKey) then
+                    Error(DulpicateKeyErr, JKey);
+            JsonToken.WriteTo(JValue);
+            ObjectDictionary.Add(JKey, JValue);
+        end;
+        
+        //OnAfterJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
     end;
+
 
 
     local procedure CompareIntegers(arg1: Integer; arg2: Integer)
@@ -39,5 +61,6 @@ codeunit 50000 "Extensions Mgt."
         CompareIntegers(arg1, arg2);
     end;
 
-    
+
+
 }

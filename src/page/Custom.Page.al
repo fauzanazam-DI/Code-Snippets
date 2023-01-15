@@ -16,8 +16,19 @@ page 50000 Custom
 
     actions
     {
+        area(Promoted)
+        {
+            group(SplitButton)
+            {
+                ShowAs = SplitButton;
+
+                actionref(ActionName1; ActionName) { }
+            }
+        }
+
         area(Processing)
         {
+
             action(ActionName)
             {
                 ApplicationArea = All;

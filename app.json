@@ -25,6 +25,7 @@
     "allowDownloadingSource": false,
     "includeSourceInSymbolFile": false
   },
+  "suppressWarnings": ["AA0218"],
   "runtime": "10.0",
   "features": [
     "NoImplicitWith"
