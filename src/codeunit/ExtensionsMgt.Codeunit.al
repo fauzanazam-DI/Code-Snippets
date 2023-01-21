@@ -1,12 +1,6 @@
 codeunit 50000 "Extensions Mgt."
 {
 
-    local procedure GetPostingDate() PostingDate: Date
-    begin
-        // AL date assignment format is yyyymmddD
-        PostingDate := 20230121D;
-    end;
-
 
     internal procedure JsonObjectValuesToDictionary(JObject: JsonObject; ObjectDictionary: Dictionary of [Text, Text])
     var
@@ -17,7 +11,7 @@ codeunit 50000 "Extensions Mgt."
         JKey: Text;
         JValue: Text;
     begin
-        //OnBeforeJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
+        OnBeforeJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
         if IsHandled then
             exit;
 
@@ -31,6 +25,22 @@ codeunit 50000 "Extensions Mgt."
             ObjectDictionary.Add(JKey, JValue);
         end;
 
-        //OnAfterJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
+        OnAfterJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
+    end;
+
+    local procedure GetPostingDate() PostingDate: Date
+    begin        
+        // AL date assignment format is yyyymmddD
+        PostingDate := 20230121D;        
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeJsonObjectValuesToDictionary(var JObject: JsonObject; var ObjectDictionary: Dictionary of [Text, Text]; var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterJsonObjectValuesToDictionary(var JObject: JsonObject; var ObjectDictionary: Dictionary of [Text, Text];IsHandled: Boolean)
+    begin
     end;
 }
