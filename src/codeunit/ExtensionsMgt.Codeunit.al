@@ -1,18 +1,12 @@
 codeunit 50000 "Extensions Mgt."
 {
-    var
-        NotEqualErr: label 'Values must be equal';
 
-    trigger OnRun()
+    local procedure GetPostingDate() PostingDate: Date
     begin
-        if not TryCompareIntegers(6, 5) then
-            Message('Try Failed');
-
-        if not TryCompareIntegersMulti(6, 5) then
-            Message('Try Multi Failed');
-
-        CompareIntegers(6, 5); // <----<<<< Errors here
+        // AL date assignment format is yyyymmddD
+        PostingDate := 20230121D;
     end;
+
 
     internal procedure JsonObjectValuesToDictionary(JObject: JsonObject; ObjectDictionary: Dictionary of [Text, Text])
     var
@@ -36,31 +30,7 @@ codeunit 50000 "Extensions Mgt."
             JsonToken.WriteTo(JValue);
             ObjectDictionary.Add(JKey, JValue);
         end;
-        
+
         //OnAfterJsonObjectValuesToDictionary(JObject, ObjectDictionary, IsHandled);
     end;
-
-
-
-    local procedure CompareIntegers(arg1: Integer; arg2: Integer)
-    begin
-        if (arg1 <> arg2) then
-            Error(NotEqualErr);
-    end;
-
-    [TryFunction]
-    local procedure TryCompareIntegers(arg1: Integer; arg2: Integer)
-    begin
-        if (arg1 <> arg2) then
-            Error(NotEqualErr);
-    end;
-
-    [TryFunction]
-    local procedure TryCompareIntegersMulti(arg1: Integer; arg2: Integer)
-    begin
-        CompareIntegers(arg1, arg2);
-    end;
-
-
-
 }
